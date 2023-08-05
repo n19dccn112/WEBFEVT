@@ -1,0 +1,1889 @@
+openapi: 3.0.1
+info:
+  title: Web API Vật Tư
+  description: N19DCCN112
+  contact:
+    email: mynth30@gmail.com
+  version: 1
+  license:
+    name: MIT Licence
+    url: https://github.com/thombergs/code-examples/blob/master/LICENSE
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+tags:
+  - name: userDetails
+  - name: Products
+  - name: orderDetails
+  - name: Features
+  - name: featureDetails
+  - name: Orders
+  - name: Featuretype
+  - name: Image
+  - name: EventProduct
+  - name: Rates
+  - name: user
+  - name: Roles
+  - name: Category
+  - name: Event
+paths:
+  "/api/userDetails/{id}":
+    get:
+      tags:
+        - userDetails
+      operationId: get1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/UserDetailDTO"
+    put:
+      tags:
+        - userDetails
+      operationId: update
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UserDetailDTO"
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/UserDetailDTO"
+    delete:
+      tags:
+        - userDetails
+      operationId: delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/UserDetailDTO"
+  "/api/user/{id}":
+    get:
+      tags:
+        - user
+      operationId: get1_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/UserDTO"
+    put:
+      tags:
+        - user
+      operationId: update_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UserDTO"
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/UserDTO"
+    delete:
+      tags:
+        - user
+      operationId: delete_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/UserDTO"
+  "/api/orderDetails/{id}":
+    get:
+      tags:
+        - orderDetails
+      operationId: get1_2
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            "$ref": "#/components/schemas/OrderDetailId"
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/OrderDetailDTO"
+    put:
+      tags:
+        - orderDetails
+      operationId: update_2
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            "$ref": "#/components/schemas/OrderDetailId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/OrderDetailDTO"
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/OrderDetailDTO"
+    delete:
+      tags:
+        - orderDetails
+      operationId: delete_2
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            "$ref": "#/components/schemas/OrderDetailId"
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/OrderDetailDTO"
+  "/api/featureDetails/{id}":
+    get:
+      tags:
+        - featureDetails
+      operationId: get1_3
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            "$ref": "#/components/schemas/FeatureDetailId"
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/FeatureDetailDTO"
+    put:
+      tags:
+        - featureDetails
+      operationId: update_3
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            "$ref": "#/components/schemas/FeatureDetailId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/FeatureDetailDTO"
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/FeatureDetailDTO"
+    delete:
+      tags:
+        - featureDetails
+      operationId: delete_3
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            "$ref": "#/components/schemas/FeatureDetailId"
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/FeatureDetailDTO"
+  "/api/Roles/{id}":
+    get:
+      tags:
+        - Roles
+      operationId: get1_4
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/RoleDTO"
+    put:
+      tags:
+        - Roles
+      operationId: update_4
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/RoleDTO"
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/RoleDTO"
+    delete:
+      tags:
+        - Roles
+      operationId: delete_4
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/RoleDTO"
+  "/api/Rates/{id}":
+    get:
+      tags:
+        - Rates
+      operationId: get1_5
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            "$ref": "#/components/schemas/RateId"
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/RateDTO"
+    put:
+      tags:
+        - Rates
+      operationId: update_5
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            "$ref": "#/components/schemas/RateId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/RateDTO"
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/RateDTO"
+    delete:
+      tags:
+        - Rates
+      operationId: delete_5
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            "$ref": "#/components/schemas/RateId"
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/RateDTO"
+  "/api/Products/{id}":
+    get:
+      tags:
+        - Products
+      operationId: get1_6
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ProductDTO"
+    put:
+      tags:
+        - Products
+      operationId: update_6
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ProductDTO"
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ProductDTO"
+    delete:
+      tags:
+        - Products
+      operationId: delete_6
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ProductDTO"
+  "/api/Orders/{id}":
+    get:
+      tags:
+        - Orders
+      operationId: get1_7
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/OrderDTO"
+    put:
+      tags:
+        - Orders
+      operationId: update_7
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/OrderDTO"
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/OrderDTO"
+    delete:
+      tags:
+        - Orders
+      operationId: delete_7
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/OrderDTO"
+  "/api/Image/{id}":
+    get:
+      tags:
+        - Image
+      operationId: get1_8
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ImageDTO"
+    put:
+      tags:
+        - Image
+      operationId: update_8
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ImageDTO"
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ImageDTO"
+    delete:
+      tags:
+        - Image
+      operationId: delete_8
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ImageDTO"
+  "/api/Featuretype/{id}":
+    get:
+      tags:
+        - Featuretype
+      operationId: get1_9
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/FeatureTypeDTO"
+    put:
+      tags:
+        - Featuretype
+      operationId: update_9
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/FeatureTypeDTO"
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/FeatureTypeDTO"
+    delete:
+      tags:
+        - Featuretype
+      operationId: delete_9
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/FeatureTypeDTO"
+  "/api/Features/{id}":
+    get:
+      tags:
+        - Features
+      operationId: get1_10
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/FeatureDTO"
+    put:
+      tags:
+        - Features
+      operationId: update_10
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/FeatureDTO"
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/FeatureDTO"
+    delete:
+      tags:
+        - Features
+      operationId: delete_10
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/FeatureDTO"
+  "/api/EventProduct/{id}":
+    get:
+      tags:
+        - EventProduct
+      operationId: get1_11
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            "$ref": "#/components/schemas/EventProductId"
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/EventProductDTO"
+    put:
+      tags:
+        - EventProduct
+      operationId: update_11
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            "$ref": "#/components/schemas/EventProductId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/EventProductDTO"
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/EventProductDTO"
+    delete:
+      tags:
+        - EventProduct
+      operationId: delete_11
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            "$ref": "#/components/schemas/EventProductId"
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/EventProductDTO"
+  "/api/Event/{id}":
+    get:
+      tags:
+        - Event
+      operationId: get1_12
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/EventDTO"
+    put:
+      tags:
+        - Event
+      operationId: update_12
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/EventDTO"
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/EventDTO"
+    delete:
+      tags:
+        - Event
+      operationId: delete_12
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/EventDTO"
+  "/api/Category/{id}":
+    get:
+      tags:
+        - Category
+      operationId: get1_13
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/CategoryDTO"
+    put:
+      tags:
+        - Category
+      operationId: update_13
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CategoryDTO"
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/CategoryDTO"
+    delete:
+      tags:
+        - Category
+      operationId: delete_13
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '202':
+          description: Accepted
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/CategoryDTO"
+  "/api/user":
+    get:
+      tags:
+        - user
+      operationId: getAll
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/UserDTO"
+    post:
+      tags:
+        - user
+      operationId: insert
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UserDTO"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/UserDTO"
+  "/api/userDetails":
+    get:
+      tags:
+        - userDetails
+      operationId: getAll_1
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/UserDetailDTO"
+    post:
+      tags:
+        - userDetails
+      operationId: insert_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UserDetailDTO"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/UserDetailDTO"
+  "/api/orderDetails":
+    get:
+      tags:
+        - orderDetails
+      operationId: getAll_2
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/OrderDetailDTO"
+    post:
+      tags:
+        - orderDetails
+      operationId: insert_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/OrderDetailDTO"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/OrderDetailDTO"
+  "/api/featureDetails":
+    get:
+      tags:
+        - featureDetails
+      operationId: getAll_3
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/FeatureDetailDTO"
+    post:
+      tags:
+        - featureDetails
+      operationId: insert_3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/FeatureDetailDTO"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/FeatureDetailDTO"
+  "/api/auth/signup":
+    post:
+      tags:
+        - auth-controller
+      operationId: registerUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/SignUpRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+  "/api/auth/signin":
+    post:
+      tags:
+        - auth-controller
+      operationId: authenticateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+  "/api/auth/changePassByEmail":
+    post:
+      tags:
+        - auth-controller
+      operationId: changePassByEmail
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ChangePassByEmailRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+  "/api/Roles":
+    get:
+      tags:
+        - Roles
+      operationId: getAll_4
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/RoleDTO"
+    post:
+      tags:
+        - Roles
+      operationId: insert_4
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/RoleDTO"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/RoleDTO"
+  "/api/Rates":
+    get:
+      tags:
+        - Rates
+      operationId: getAll_5
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/RateDTO"
+    post:
+      tags:
+        - Rates
+      operationId: insert_5
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/RateDTO"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/RateDTO"
+  "/api/Products":
+    get:
+      tags:
+        - Products
+      operationId: getAll_6
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/ProductDTO"
+    post:
+      tags:
+        - Products
+      operationId: insert_6
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ProductDTO"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ProductDTO"
+  "/api/Orders":
+    get:
+      tags:
+        - Orders
+      operationId: getAll_7
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/OrderDTO"
+    post:
+      tags:
+        - Orders
+      operationId: insert_7
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/OrderDTO"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/OrderDTO"
+  "/api/Image":
+    get:
+      tags:
+        - Image
+      operationId: getAll_8
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/ImageDTO"
+    post:
+      tags:
+        - Image
+      operationId: insert_8
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ImageDTO"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ImageDTO"
+  "/api/Featuretype":
+    get:
+      tags:
+        - Featuretype
+      operationId: getAll_9
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/FeatureTypeDTO"
+    post:
+      tags:
+        - Featuretype
+      operationId: insert_9
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/FeatureTypeDTO"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/FeatureTypeDTO"
+  "/api/Features":
+    get:
+      tags:
+        - Features
+      operationId: getAll_10
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/FeatureDTO"
+    post:
+      tags:
+        - Features
+      operationId: insert_10
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/FeatureDTO"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/FeatureDTO"
+  "/api/Event":
+    get:
+      tags:
+        - Event
+      operationId: getAll_11
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/EventDTO"
+    post:
+      tags:
+        - Event
+      operationId: insert_11
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/EventDTO"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/EventDTO"
+  "/api/EventProduct":
+    get:
+      tags:
+        - EventProduct
+      operationId: getAll_12
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/EventProductDTO"
+    post:
+      tags:
+        - EventProduct
+      operationId: insert_12
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/EventProductDTO"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/EventProductDTO"
+  "/api/Category":
+    get:
+      tags:
+        - Category
+      operationId: getAll_13
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/CategoryDTO"
+    post:
+      tags:
+        - Category
+      operationId: insert_13
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CategoryDTO"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/CategoryDTO"
+components:
+  schemas:
+    UserDetailDTO:
+      required:
+        - name
+      type: object
+      properties:
+        userDetailId:
+          type: integer
+          format: int64
+        address:
+          type: string
+        name:
+          type: string
+        addressDefault:
+          type: integer
+          format: int32
+    UserDTO:
+      required:
+        - password
+        - username
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        email:
+          type: string
+        password:
+          type: string
+        username:
+          type: string
+        phone:
+          type: string
+        role:
+          type: string
+          enum:
+            - ROLE_USER
+            - ROLE_SHOP
+        userDetailId:
+          type: integer
+          format: int64
+        address:
+          type: string
+        name:
+          type: string
+        addressDefault:
+          type: integer
+          format: int32
+    Category:
+      type: object
+      properties:
+        categoryId:
+          type: integer
+          format: int64
+        categoryName:
+          type: integer
+          format: int64
+        description:
+          type: string
+        products:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Product"
+    Event:
+      type: object
+      properties:
+        eventId:
+          type: integer
+          format: int64
+        eventName:
+          type: string
+        description:
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        discountCode:
+          type: string
+        discountValue:
+          type: integer
+          format: int32
+        eventStatus:
+          type: string
+          enum:
+            - ACTICATED
+            - PENDING_ACTICATION
+            - EXPIRED
+    EventProduct:
+      type: object
+      properties:
+        eventProductId:
+          "$ref": "#/components/schemas/EventProductId"
+        createDate:
+          type: string
+          format: date-time
+        updateDate:
+          type: string
+          format: date-time
+    EventProductId:
+      type: object
+      properties:
+        event:
+          "$ref": "#/components/schemas/Event"
+        products:
+          "$ref": "#/components/schemas/Product"
+    Order:
+      type: object
+      properties:
+        orderId:
+          type: integer
+          format: int64
+        address:
+          type: string
+        phone:
+          type: string
+        status:
+          type: string
+          enum:
+            - ORDER_PLACED
+            - ORDER_CONFIRMED
+            - ORDER_PROCESSED
+            - ORDER_SHIPPED
+            - ORDER_OUT_FOR_DELIVERY
+            - ORDER_DELIVERED
+            - ORDER_CANCELLED
+        time:
+          type: string
+          format: date-time
+        user:
+          "$ref": "#/components/schemas/User"
+        orderDetails:
+          type: array
+          items:
+            "$ref": "#/components/schemas/OrderDetail"
+    OrderDetail:
+      type: object
+      properties:
+        orderDetailId:
+          "$ref": "#/components/schemas/OrderDetailId"
+        amount:
+          type: integer
+          format: int64
+    OrderDetailId:
+      type: object
+      properties:
+        products:
+          "$ref": "#/components/schemas/Product"
+        orders:
+          "$ref": "#/components/schemas/Order"
+    Product:
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int64
+        createDate:
+          type: string
+          format: date-time
+        description:
+          type: string
+        name:
+          type: string
+        price:
+          type: integer
+          format: int64
+        remain:
+          type: integer
+          format: int64
+        updateDate:
+          type: string
+          format: date-time
+        expirationDate:
+          type: string
+          format: date-time
+        category:
+          "$ref": "#/components/schemas/Category"
+        eventProducts:
+          type: array
+          items:
+            "$ref": "#/components/schemas/EventProduct"
+    Role:
+      type: object
+      properties:
+        roleId:
+          type: integer
+          format: int64
+        name:
+          type: string
+          enum:
+            - ROLE_USER
+            - ROLE_SHOP
+        users:
+          type: array
+          items:
+            "$ref": "#/components/schemas/User"
+    User:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        email:
+          type: string
+        password:
+          type: string
+        username:
+          type: string
+        phone:
+          type: string
+        role:
+          "$ref": "#/components/schemas/Role"
+        userDetails:
+          type: array
+          items:
+            "$ref": "#/components/schemas/UserDetail"
+    UserDetail:
+      type: object
+      properties:
+        userDetailId:
+          type: integer
+          format: int64
+        address:
+          type: string
+        name:
+          type: string
+        addressDefault:
+          type: integer
+          format: int32
+        userDetail:
+          "$ref": "#/components/schemas/UserDetail"
+    OrderDetailDTO:
+      type: object
+      properties:
+        orderDetailId:
+          "$ref": "#/components/schemas/OrderDetailId"
+        amount:
+          type: integer
+          format: int64
+    Feature:
+      type: object
+      properties:
+        featureId:
+          type: integer
+          format: int64
+        point:
+          type: integer
+          format: int32
+        specific:
+          type: string
+        featuretype:
+          "$ref": "#/components/schemas/FeatureType"
+        features:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Feature"
+    FeatureDetailId:
+      type: object
+      properties:
+        products:
+          "$ref": "#/components/schemas/Product"
+        features:
+          "$ref": "#/components/schemas/Feature"
+    FeatureType:
+      type: object
+      properties:
+        featureTypeId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        unit:
+          type: string
+        features:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Feature"
+    FeatureDetailDTO:
+      type: object
+      properties:
+        featureDetailId:
+          "$ref": "#/components/schemas/FeatureDetailId"
+    RoleDTO:
+      required:
+        - name
+      type: object
+      properties:
+        roleId:
+          type: integer
+          format: int64
+        name:
+          type: string
+          enum:
+            - ROLE_USER
+            - ROLE_SHOP
+    RateId:
+      type: object
+      properties:
+        products:
+          "$ref": "#/components/schemas/Product"
+        user:
+          "$ref": "#/components/schemas/User"
+    RateDTO:
+      required:
+        - comment
+      type: object
+      properties:
+        rateId:
+          "$ref": "#/components/schemas/RateId"
+        comment:
+          type: string
+        point:
+          type: integer
+          format: int32
+    ProductDTO:
+      required:
+        - name
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int64
+        createDate:
+          type: string
+          format: date-time
+        description:
+          type: string
+        name:
+          type: string
+        price:
+          type: integer
+          format: int64
+        remain:
+          type: integer
+          format: int64
+        updateDate:
+          type: string
+          format: date-time
+        expirationDate:
+          type: string
+          format: date-time
+    OrderDTO:
+      required:
+        - status
+      type: object
+      properties:
+        orderId:
+          type: integer
+          format: int64
+        address:
+          type: string
+        phone:
+          maxLength: 10
+          minLength: 10
+          type: string
+        status:
+          type: string
+          enum:
+            - ORDER_PLACED
+            - ORDER_CONFIRMED
+            - ORDER_PROCESSED
+            - ORDER_SHIPPED
+            - ORDER_OUT_FOR_DELIVERY
+            - ORDER_DELIVERED
+            - ORDER_CANCELLED
+        time:
+          type: string
+          format: date-time
+    ImageDTO:
+      required:
+        - url
+      type: object
+      properties:
+        imageId:
+          type: integer
+          format: int64
+        url:
+          type: string
+        productId:
+          type: integer
+          format: int64
+    FeatureTypeDTO:
+      required:
+        - name
+      type: object
+      properties:
+        featureTypeId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        unit:
+          type: string
+    FeatureDTO:
+      type: object
+      properties:
+        featureId:
+          type: integer
+          format: int64
+        point:
+          type: integer
+          format: int32
+        specific:
+          type: string
+    EventProductDTO:
+      type: object
+      properties:
+        eventProductId:
+          "$ref": "#/components/schemas/EventProductId"
+        createDate:
+          type: string
+          format: date-time
+        updateDate:
+          type: string
+          format: date-time
+    EventDTO:
+      required:
+        - discountCode
+        - discountValue
+        - endDate
+        - eventName
+        - eventStatus
+        - startDate
+      type: object
+      properties:
+        eventId:
+          type: integer
+          format: int64
+        eventName:
+          type: string
+        description:
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        discountCode:
+          type: string
+        discountValue:
+          type: integer
+          format: int32
+        eventStatus:
+          type: string
+          enum:
+            - ACTICATED
+            - PENDING_ACTICATION
+            - EXPIRED
+    CategoryDTO:
+      required:
+        - categoryName
+      type: object
+      properties:
+        categoryId:
+          type: integer
+          format: int64
+        categoryName:
+          type: integer
+          format: int64
+        description:
+          type: string
+        products:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Product"
+    SignUpRequest:
+      required:
+        - password
+        - phone
+        - username
+      type: object
+      properties:
+        signup_id:
+          type: integer
+          format: int64
+        username:
+          maxLength: 20
+          minLength: 3
+          type: string
+        address:
+          type: string
+        phone:
+          maxLength: 10
+          minLength: 10
+          type: string
+        email:
+          type: string
+        role:
+          "$ref": "#/components/schemas/Role"
+        password:
+          maxLength: 40
+          minLength: 6
+          type: string
+    LoginRequest:
+      required:
+        - password
+        - username
+      type: object
+      properties:
+        username:
+          maxLength: 20
+          minLength: 3
+          type: string
+        password:
+          maxLength: 40
+          minLength: 6
+          type: string
+    ChangePassByEmailRequest:
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          maxLength: 50
+          minLength: 0
+          type: string
+        password:
+          maxLength: 40
+          minLength: 6
+          type: string
+  securitySchemes:
+    brearerToken:
+      type: http
+      scheme: brearer
+      bearerFormat: JWT
