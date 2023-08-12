@@ -17,7 +17,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("api/Rate")
+@RequestMapping("api/rates")
 @Tag(name = "Rate")
 public class RateController {
     @Resource
@@ -25,30 +25,30 @@ public class RateController {
     private RateService service;
 
     @GetMapping("")
-    public List<RateDTO> getAll(@RequestParam(required = false) Long product_id) {
-        if (product_id == null)
+    public List<RateDTO> getAll(@RequestParam(required = false) Long productId) {
+        if (productId == null)
             return getService().findAll();
         else
-            return getService().findAll(product_id);
+            return getService().findAll(productId);
     }
 
-    @GetMapping("/{user_id}-{product_id}")
-    public RateDTO get1(@PathVariable Long user_id, @PathVariable Long product_id) {
-        return service.findById(user_id, product_id);
-    }
-
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    @PutMapping("/{user_id}-{product_id}")
-    public RateDTO update(@PathVariable Long user_id, @PathVariable Long product_id, @Valid @RequestBody RateDTO dto) {
-        dto.setProductId(product_id);
-        dto.setUserId(user_id);
-        return service.update(user_id, product_id, dto);
+    @GetMapping("/{userId}-{productId}")
+    public RateDTO get1(@PathVariable Long userId, @PathVariable Long productId) {
+        return service.findById(userId, productId);
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @DeleteMapping("/{user_id}-{product_id}")
-    public RateDTO delete(@PathVariable Long user_id, @PathVariable Long product_id) {
-        return service.delete(user_id, product_id);
+    @PutMapping("/{userId}-{productId}")
+    public RateDTO update(@PathVariable Long userId, @PathVariable Long productId, @Valid @RequestBody RateDTO dto) {
+        dto.setProductId(productId);
+        dto.setUserId(userId);
+        return service.update(userId, productId, dto);
+    }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @DeleteMapping("/{userId}-{productId}")
+    public RateDTO delete(@PathVariable Long userId, @PathVariable Long productId) {
+        return service.delete(userId, productId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

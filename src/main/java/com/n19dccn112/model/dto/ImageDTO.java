@@ -13,7 +13,7 @@ public class ImageDTO {
     private Long imageId;
     @URL
     @NotNull
-    @NotBlank
     private String url;
+    @NotNull
     private Long productId;
 }

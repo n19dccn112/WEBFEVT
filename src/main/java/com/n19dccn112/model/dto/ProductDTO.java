@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -27,4 +28,8 @@ public class ProductDTO {
     private Date updateDate;
     private Date expirationDate;
     private List<String> imageUrl;
+    @NotNull
+    private Long categoryId;
+    private String categoryName;
+    private List<Long> featureIds;
 }

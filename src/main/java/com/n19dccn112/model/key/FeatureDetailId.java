@@ -17,10 +17,10 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class FeatureDetailId implements Serializable {
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-
-    @ManyToOne
     @JoinColumn(name = "feature_id")
     private Feature feature;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 }

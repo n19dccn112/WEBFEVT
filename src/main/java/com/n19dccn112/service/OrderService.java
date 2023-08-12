@@ -1,12 +1,15 @@
 package com.n19dccn112.service;
 
 import com.n19dccn112.model.dto.OrderDTO;
+import com.n19dccn112.model.dto.OrderDetailDTO;
+import com.n19dccn112.model.dto.ProductDTO;
 import com.n19dccn112.model.dto.UserDTO;
-import com.n19dccn112.model.entity.Category;
-import com.n19dccn112.model.entity.Order;
-import com.n19dccn112.model.entity.User;
+import com.n19dccn112.model.entity.*;
 import com.n19dccn112.model.enumeration.OrderStatus;
+import com.n19dccn112.model.key.OrderDetailId;
+import com.n19dccn112.repository.OrderDetailRepository;
 import com.n19dccn112.repository.OrderRepository;
+import com.n19dccn112.repository.ProductRepository;
 import com.n19dccn112.repository.UserRepository;
 import com.n19dccn112.service.Interface.IBaseService;
 import com.n19dccn112.service.Interface.IModelMapper;
@@ -16,17 +19,23 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolationException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
 @Service
 public class OrderService implements IBaseService<OrderDTO, Long>, IModelMapper<OrderDTO, Order> {
     private final OrderRepository orderRepository;
+    private final OrderDetailRepository orderDetailRepository;
+    private final OrderDetailService orderDetailService;
     private final UserRepository userRepository;
+    private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
 
-    public OrderService(OrderRepository ordersRepository, UserRepository userRepository, ModelMapper modelMapper) {
+    public OrderService(OrderRepository ordersRepository, OrderDetailRepository orderDetailRepository, OrderDetailService orderDetailService, UserRepository userRepository, ProductRepository productRepository, ModelMapper modelMapper) {
         this.orderRepository = ordersRepository;
+        this.orderDetailRepository = orderDetailRepository;
+        this.orderDetailService = orderDetailService;
         this.userRepository = userRepository;
+        this.productRepository = productRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -65,7 +74,25 @@ public class OrderService implements IBaseService<OrderDTO, Long>, IModelMapper<
 
     @Override
     public OrderDTO save(OrderDTO orderDTO) {
-        orderRepository.save(createFromD(orderDTO));
+        Order order = createFromD(orderDTO);
+        order.setStatus(OrderStatus.PREPARE);
+        order.setTime(new Date());
+        orderRepository.save(order);
+
+        for (Map.Entry<Long, Integer> entry : orderDTO.getDetails().entrySet()){
+            OrderDetail orderDetail = new OrderDetail();
+            OrderDetailId orderDetailId = new OrderDetailId();
+            orderDetailId.setOrder(order);
+            Optional<Product> product = productRepository.findById(entry.getKey());
+            orderDetailId.setProduct(product.get());
+            orderDetail.setOrderDetailId(orderDetailId);
+            orderDetail.setAmount(entry.getValue());
+            orderDetailRepository.save(orderDetail);
+
+            product.orElseThrow(() -> new NotFoundException(ProductDTO.class, entry.getKey()));
+            product.get().setRemain(product.get().getRemain()- entry.getValue());
+            productRepository.save(product.get());
+        }
         return createFromE(orderRepository.findOrderByPhone(orderDTO.getPhone()).get());
     }
 
@@ -86,23 +113,21 @@ public class OrderService implements IBaseService<OrderDTO, Long>, IModelMapper<
     @Override
     public Order createFromD(OrderDTO orderDTO) {
         Order order = modelMapper.map(orderDTO, Order.class);
-        try {
-            Optional<User> user = userRepository.findById(orderDTO.getOrderId());
-            user.orElseThrow(() -> new NotFoundException(UserDTO.class, orderDTO.getUserId()));
-            order.setUser(user.get());
-        }catch (Exception e){
-            order.setUser(null);
-        }
+        Optional<User> user = userRepository.findById(orderDTO.getUserId());
+        user.orElseThrow(() -> new NotFoundException(UserDTO.class, orderDTO.getUserId()));
+        order.setUser(user.get());
+        order.setStatus(orderDTO.getStatus());
         return order;
     }
 
     @Override
     public OrderDTO createFromE(Order order) {
         OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
-        try {
-            orderDTO.setUserId(order.getUser().getUserId());
-        }catch (Exception e){
-            orderDTO.setUserId(null);
+        orderDTO.setUserId(order.getUser().getUserId());
+        orderDTO.setStatus(order.getStatus());
+        Map<String, Integer> map = new HashMap<>();
+        for (OrderDetail orderDetail: orderDetailRepository.findAllByOrderOrderId(order.getOrderId())){
+            map.put(orderDetail.getOrderDetailId().getProduct().getProductId().toString(), orderDetail.getAmount());
         }
         return orderDTO;
     }
@@ -114,6 +139,17 @@ public class OrderService implements IBaseService<OrderDTO, Long>, IModelMapper<
             order.setPhone(orderDTO.getPhone());
             order.setStatus(orderDTO.getStatus());
             order.setTime(orderDTO.getTime());
+            if (orderDTO.getStatus() == OrderStatus.CANCELED)
+                for (Map.Entry<Long, Integer> entry : orderDTO.getDetails().entrySet()){
+                    OrderDetailDTO orderDetailDTO = orderDetailService.findById(orderDTO.getOrderId(), entry.getKey());
+                    orderDetailDTO.setAmount(entry.getValue());
+                    orderDetailRepository.save(orderDetailService.createFromD(orderDetailDTO));
+
+                    Optional<Product> product = productRepository.findById(entry.getKey());
+                    product.orElseThrow(() -> new NotFoundException(ProductDTO.class, entry.getKey()));
+                    product.get().setRemain(product.get().getRemain() + entry.getValue());
+                    productRepository.save(product.get());
+                }
         }
         return order;
     }

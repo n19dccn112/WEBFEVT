@@ -14,7 +14,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("api/Order")
+@RequestMapping("api/orders")
 @Tag(name = "Order")
 public class OrderController implements IBaseController<OrderDTO, Long, OrderService> {
     @Resource

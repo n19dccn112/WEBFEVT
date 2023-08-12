@@ -13,7 +13,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("api/Category")
+@RequestMapping("api/categories")
 @Tag(name = "Category")
 public class CategoryController implements IBaseController<CategoryDTO, Long, CategoryService> {
     @Resource

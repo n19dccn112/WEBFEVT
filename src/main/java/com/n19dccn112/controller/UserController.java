@@ -13,7 +13,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("api/User")
+@RequestMapping("api/users")
 @Tag(name = "User")
 public class UserController implements IBaseController<UserDTO, Long, UserService> {
     @Resource

@@ -13,8 +13,7 @@ import java.util.List;
 public class CategoryDTO {
     private Long categoryId;
     @NotNull
-    @NotBlank
     private String categoryName;
     private String description;
-    private List<Product> products;
+    private Integer amountProducts;
 }

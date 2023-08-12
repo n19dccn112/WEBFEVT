@@ -16,7 +16,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("api/Role")
+@RequestMapping("api/roles")
 @Tag(name = "Role")
 public class RoleController implements IBaseController<RoleDTO, Long, RoleService> {
     @Resource

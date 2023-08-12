@@ -19,7 +19,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("api/OrderDetail")
+@RequestMapping("api/orderDetails")
 @Tag(name = "OrderDetail")
 public class OrderDetailController {
     @Resource
@@ -35,23 +35,23 @@ public class OrderDetailController {
         }
     }
 
-    @GetMapping("/{order_id}-{product_id}")
-    public OrderDetailDTO get1(@PathVariable Long order_id, @PathVariable Long product_id) {
-        return service.findById(order_id, product_id);
+    @GetMapping("/{orderId}-{productId}")
+    public OrderDetailDTO get1(@PathVariable Long orderId, @PathVariable Long productId) {
+        return service.findById(orderId, productId);
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @PutMapping("/{order_id}-{product_id}")
-    public OrderDetailDTO update(@PathVariable Long order_id, @PathVariable Long product_id, @Valid @RequestBody OrderDetailDTO dto) {
-        dto.setProductId(product_id);
-        dto.setOrderId(order_id);
-        return service.update(order_id, product_id, dto);
+    @PutMapping("/{orderId}-{productId}")
+    public OrderDetailDTO update(@PathVariable Long orderId, @PathVariable Long productId, @Valid @RequestBody OrderDetailDTO dto) {
+        dto.setProductId(productId);
+        dto.setOrderId(orderId);
+        return service.update(orderId, productId, dto);
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @DeleteMapping("/{order_id}-{product_id}")
-    public OrderDetailDTO delete(@PathVariable Long order_id, @PathVariable Long product_id) {
-        return service.delete(order_id, product_id);
+    @DeleteMapping("/{orderId}-{productId}")
+    public OrderDetailDTO delete(@PathVariable Long orderId, @PathVariable Long productId) {
+        return service.delete(orderId, productId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

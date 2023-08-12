@@ -2,6 +2,7 @@ package com.n19dccn112.service;
 
 import com.n19dccn112.model.Auth.*;
 import com.n19dccn112.model.dto.UserDTO;
+import com.n19dccn112.model.dto.UserDetailDTO;
 import com.n19dccn112.model.entity.Category;
 import com.n19dccn112.model.entity.Role;
 import com.n19dccn112.model.entity.User;
@@ -25,6 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +34,7 @@ import java.util.Optional;
 @Service
 public class UserService implements IBaseService<UserDTO, Long>, IModelMapper<UserDTO, User> {
     private final UserRepository userRepository;
+    private final UserDetailService userDetailService;
     private final UserDetailRepository userDetailRepository;
     private final RoleRepository roleRepository;
     private final ModelMapper modelMapper;
@@ -39,8 +42,9 @@ public class UserService implements IBaseService<UserDTO, Long>, IModelMapper<Us
     private final JwtUtils jwtUtils;
     private final PasswordEncoder encoder;
 
-    public UserService(UserRepository userRepository, UserDetailRepository userDetailRepository, RoleRepository roleRepository, ModelMapper modelMapper, AuthenticationManager authenticationManager, JwtUtils jwtUtils, PasswordEncoder encoder) {
+    public UserService(UserRepository userRepository, UserDetailService userDetailService, UserDetailRepository userDetailRepository, RoleRepository roleRepository, ModelMapper modelMapper, AuthenticationManager authenticationManager, JwtUtils jwtUtils, PasswordEncoder encoder) {
         this.userRepository = userRepository;
+        this.userDetailService = userDetailService;
         this.userDetailRepository = userDetailRepository;
         this.roleRepository = roleRepository;
         this.modelMapper = modelMapper;
@@ -60,15 +64,19 @@ public class UserService implements IBaseService<UserDTO, Long>, IModelMapper<Us
         user.orElseThrow(() -> new NotFoundException(UserDTO.class, userId));
         return createFromE(user.get());
     }
-
+    @Transactional
     @Override
     public UserDTO update(Long userId, UserDTO userDTO) {
         Optional <User> user =  userRepository.findById(userId);
         user.orElseThrow(() -> new NotFoundException(UserDTO.class, userId));
         userRepository.save(updateEntity(user.get(), userDTO));
+        UserDetail userDetail = userDetailRepository.findAllByUserUserIdDefault(userId);
+        userDetail.setName(userDTO.getName());
+        userDetail.setAddress(userDTO.getAddress());
+        userDetailRepository.save(userDetail);
         return createFromE(user.get());
     }
-
+    @Transactional
     @Override
     public UserDTO save(UserDTO userDTO) {
         userRepository.save(createFromD(userDTO));
@@ -79,16 +87,29 @@ public class UserService implements IBaseService<UserDTO, Long>, IModelMapper<Us
         user.get().setRole(role.get());
 
         userRepository.save(user.get());
+        try {
+            UserDetail userDetails1 = userDetailRepository.findAllByUserUserIdDefault(userDTO.getUserId());
+            userDetails1.setAddressDefault(0);
+            userDetailRepository.save(userDetails1);
+        }catch (Exception e){}
+
+        UserDetail userDetails = new UserDetail();
+        userDetails.setUser(user.get());
+        userDetails.setName(userDTO.getName());
+        userDetails.setAddress(userDTO.getAddress());
+        userDetails.setAddressDefault(1);
+        userDetailRepository.save(userDetails);
 
         return createFromE(user.get());
     }
-
+    @Transactional
     @Override
     public UserDTO delete(Long userId) {
         Optional <User> user =  userRepository.findById(userId);
         user.orElseThrow(() -> new NotFoundException(UserDTO.class, userId));
         UserDTO userDTO = createFromE(user.get());
         try {
+            userDetailRepository.deleteUserDetailsByUserUserId(userId);
             userRepository.delete(user.get());
         }
         catch (ConstraintViolationException constraintViolationException){
@@ -114,6 +135,7 @@ public class UserService implements IBaseService<UserDTO, Long>, IModelMapper<Us
                     userDTO.setAddress(userDTO.getAddress());
                     userDTO.setName(userDTO.getName());
                     userDTO.setAddressDefault(userDetail.getAddressDefault());
+                    break;
                 }
             }
         }
@@ -121,6 +143,10 @@ public class UserService implements IBaseService<UserDTO, Long>, IModelMapper<Us
             userDTO.setRole(user.getRole().getName());
         }
         userDTO.setPassword("");
+
+        UserDetail userDetails = userDetailRepository.findAllByUserUserIdDefault(user.getUserId());
+        userDTO.setName(userDetails.getName());
+        userDTO.setAddress(userDetails.getAddress());
         return userDTO;
     }
 
@@ -153,7 +179,9 @@ public class UserService implements IBaseService<UserDTO, Long>, IModelMapper<Us
                 userDetails.getUsername(),
                 userDetails.getPhone(),
                 userDetails.getEmail(),
-                roles.get(0)));
+                roles.get(0),
+                userDetails.getName(),
+                userDetails.getAddress()));
     }
 
     public ResponseEntity<?> register(RegisterRequest registerRequest) {

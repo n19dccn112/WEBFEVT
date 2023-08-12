@@ -2,6 +2,7 @@ package com.n19dccn112.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.n19dccn112.model.entity.User;
+import com.n19dccn112.model.entity.UserDetail;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +22,9 @@ public class UserDetailsImpl implements UserDetails {
     private final String phone;
 
     private final String email;
+
+    private final String name;
+    private final String address;
     @JsonIgnore
     private final String password;
 
@@ -30,12 +34,14 @@ public class UserDetailsImpl implements UserDetails {
             Long id,
             String username,
             String email,
-            String phone, String password,
+            String phone, String name, String address, String password,
             Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.phone = phone;
         this.email = email;
+        this.name = name;
+        this.address = address;
         this.password = password;
         this.authorities = authorities;
     }
@@ -43,8 +49,17 @@ public class UserDetailsImpl implements UserDetails {
     public static UserDetailsImpl build(User user) {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole().toString()));
+        UserDetail userDetail = new UserDetail();
+        if(user.getUserDetails() != null) {
+            for (UserDetail u : user.getUserDetails()) {
+                if (u.getAddressDefault() == 1) {
+                    userDetail = u;
+                    break;
+                }
+            }
+        }
         return new UserDetailsImpl(
-                user.getUserId(), user.getUsername(), user.getEmail(), user.getPhone(), user.getPassword(), authorities);
+                user.getUserId(), user.getUsername(), user.getEmail(), user.getPhone(), userDetail.getName(), userDetail.getAddress(), user.getPassword(), authorities);
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -69,6 +84,12 @@ public class UserDetailsImpl implements UserDetails {
     public String getUsername() {
         return username;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAddress() {return address;}
 
     @Override
     public boolean isAccountNonExpired() {

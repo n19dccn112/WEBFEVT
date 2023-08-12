@@ -68,22 +68,12 @@ public class EventService implements IBaseService<EventDTO, Long>, IModelMapper<
     @Override
     public Event createFromD(EventDTO eventDTO) {
         Event event = modelMapper.map(eventDTO, Event.class);
-
-        Date currentDate = eventDTO.getStartDate();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(currentDate);
-        calendar.add(Calendar.DATE, eventDTO.getAmoutEndDate());
-        Date futureDate = calendar.getTime();
-
-        event.setEndDate(futureDate);
         return event;
     }
 
     @Override
     public EventDTO createFromE(Event event) {
         EventDTO eventDTO = modelMapper.map(event, EventDTO.class);
-        Long day = event.getEndDate().getTime() - event.getStartDate().getTime();
-        eventDTO.setAmoutEndDate((int) (day / (24 * 60 * 60 * 1000)));
         return eventDTO;
     }
 
@@ -92,16 +82,8 @@ public class EventService implements IBaseService<EventDTO, Long>, IModelMapper<
         if (event != null && eventDTO != null){
             event.setEventName(eventDTO.getEventName());
             event.setDescription(eventDTO.getDescription());
-
-            Date currentDate = eventDTO.getStartDate();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(currentDate);
-            calendar.add(Calendar.DATE, eventDTO.getAmoutEndDate());
-            Date futureDate = calendar.getTime();
-
-            event.setStartDate(currentDate);
-            event.setEndDate(futureDate);
-
+            event.setStartDate(eventDTO.getStartDate());
+            event.setEndDate(eventDTO.getEndDate());
             event.setDiscountCode(eventDTO.getDiscountCode());
             event.setDiscountValue(eventDTO.getDiscountValue());
             event.setEventStatus(eventDTO.getEventStatus());

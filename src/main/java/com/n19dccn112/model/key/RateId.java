@@ -18,10 +18,11 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class RateId implements Serializable {
     @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 }

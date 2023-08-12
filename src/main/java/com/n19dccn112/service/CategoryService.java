@@ -66,14 +66,13 @@ public class CategoryService implements IBaseService<CategoryDTO, Long>, IModelM
     @Override
     public Category createFromD(CategoryDTO categoryDTO) {
         Category category = modelMapper.map(categoryDTO, Category.class);
-        category.setProducts(categoryRepository.findAllProductByCategory(category.getCategoryId()));
         return category;
     }
 
     @Override
     public CategoryDTO createFromE(Category category) {
         CategoryDTO categoryDTO = modelMapper.map(category, CategoryDTO.class);
-        categoryDTO.setProducts(categoryRepository.findAllProductByCategory(category.getCategoryId()));
+        categoryDTO.setAmountProducts(categoryRepository.countProductByCateId(category.getCategoryId()));
         return categoryDTO;
     }
 

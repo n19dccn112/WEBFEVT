@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 public class FeatureTypeDTO {
     private Long featureTypeId;
     @NotNull
-    @NotBlank
     private String name;
     private String unit;
 }

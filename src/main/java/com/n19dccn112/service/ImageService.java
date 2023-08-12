@@ -34,6 +34,10 @@ public class ImageService implements IBaseService<ImageDTO, Long>, IModelMapper<
         return createFromEntities(imageRepository.findAll());
     }
 
+    public List<ImageDTO> findAll(Long productId) {
+        return createFromEntities(imageRepository.findAllByProduct_ProductId(productId));
+    }
+
     @Override
     public ImageDTO findById(Long imageId) {
         Optional <Image> image = imageRepository.findById(imageId);
@@ -72,18 +76,14 @@ public class ImageService implements IBaseService<ImageDTO, Long>, IModelMapper<
     @Override
     public Image createFromD(ImageDTO imageDTO) {
         Image image = modelMapper.map(imageDTO, Image.class);
-        Optional<Product> product = productRepository.findById(imageDTO.getProductId());
-        product.orElseThrow(() -> new NotFoundException(ProductDTO.class, imageDTO.getImageId()));
-        image.setProduct(product.get());
+        image.setProduct(productRepository.findById(imageDTO.getImageId()).get());
         return image;
     }
 
     @Override
     public ImageDTO createFromE(Image image) {
         ImageDTO imageDTO = modelMapper.map(image, ImageDTO.class);
-        if (image.getProduct() != null) {
-            imageDTO.setProductId(image.getProduct().getProductId());
-        }
+        imageDTO.setProductId(image.getProduct().getProductId());
         return imageDTO;
     }
 

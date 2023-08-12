@@ -16,7 +16,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("api/FeatureDetail")
+@RequestMapping("api/featureDetails")
 @Tag(name = "FeatureDetail")
 public class FeatureDetailController{
     @Resource
@@ -28,23 +28,23 @@ public class FeatureDetailController{
         return getService().findAll();
     }
 
-    @GetMapping("/{feature_id}-{product_id}")
-    public FeatureDetailDTO get1(@PathVariable Long feature_id, @PathVariable Long product_id) {
-        return service.findById(feature_id, product_id);
+    @GetMapping("/{featureId}-{productId}")
+    public FeatureDetailDTO get1(@PathVariable Long featureId, @PathVariable Long productId) {
+        return service.findById(featureId, productId);
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @PutMapping("/{feature_id}-{product_id}")
-    public FeatureDetailDTO update(@PathVariable Long feature_id, @PathVariable Long product_id, @Valid @RequestBody FeatureDetailDTO dto) {
-        dto.setProductId(product_id);
-        dto.setFeatureId(feature_id);
-        return service.update(feature_id, product_id, dto);
+    @PutMapping("/{featureId}-{productId}")
+    public FeatureDetailDTO update(@PathVariable Long featureId, @PathVariable Long productId, @Valid @RequestBody FeatureDetailDTO dto) {
+        dto.setProductId(productId);
+        dto.setFeatureId(featureId);
+        return service.update(featureId, productId, dto);
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @DeleteMapping("/{feature_id}-{product_id}")
-    public FeatureDetailDTO delete(@PathVariable Long feature_id, @PathVariable Long product_id) {
-        return service.delete(feature_id, product_id);
+    @DeleteMapping("/{featureId}-{productId}")
+    public FeatureDetailDTO delete(@PathVariable Long featureId, @PathVariable Long productId) {
+        return service.delete(featureId, productId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

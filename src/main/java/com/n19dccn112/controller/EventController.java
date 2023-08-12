@@ -16,7 +16,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("api/Event")
+@RequestMapping("api/events")
 @Tag(name = "Event")
 public class EventController implements IBaseController<EventDTO, Long, EventService> {
     @Resource

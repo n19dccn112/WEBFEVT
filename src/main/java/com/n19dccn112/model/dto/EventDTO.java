@@ -19,7 +19,7 @@ public class EventDTO {
     private String eventName;
     private String description;
     private Date startDate;
-    private int amoutEndDate;
+    private Date endDate;
     @NotNull
     @NotBlank
     private String discountCode;

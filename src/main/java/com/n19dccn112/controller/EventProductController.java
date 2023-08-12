@@ -15,7 +15,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("api/EventProduct")
+@RequestMapping("api/eventProducts")
 @Tag(name = "EventProduct")
 public class EventProductController{
     @Resource
@@ -30,23 +30,23 @@ public class EventProductController{
             return getService().findAll(idEvent);
     }
 
-    @GetMapping("/{event_id}-{product_id}")
-    public EventProductDTO get1(@PathVariable Long event_id, @PathVariable Long product_id) {
-        return service.findById(event_id, product_id);
+    @GetMapping("/{eventId}-{productId}")
+    public EventProductDTO get1(@PathVariable Long eventId, @PathVariable Long productId) {
+        return service.findById(eventId, productId);
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @PutMapping("/{event_id}-{product_id}")
-    public EventProductDTO update(@PathVariable Long event_id, @PathVariable Long product_id, @Valid @RequestBody EventProductDTO dto) {
-        dto.setProductId(product_id);
-        dto.setEventId(event_id);
-        return service.update(event_id, product_id, dto);
+    @PutMapping("/{eventId}-{productId}")
+    public EventProductDTO update(@PathVariable Long eventId, @PathVariable Long productId, @Valid @RequestBody EventProductDTO dto) {
+        dto.setProductId(productId);
+        dto.setEventId(eventId);
+        return service.update(eventId, productId, dto);
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @DeleteMapping("/{event_id}-{product_id}")
-    public EventProductDTO delete(@PathVariable Long event_id, @PathVariable Long product_id) {
-        return service.delete(event_id, product_id);
+    @DeleteMapping("/{eventId}-{productId}")
+    public EventProductDTO delete(@PathVariable Long eventId, @PathVariable Long productId) {
+        return service.delete(eventId, productId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

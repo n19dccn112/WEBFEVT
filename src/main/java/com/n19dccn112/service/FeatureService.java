@@ -31,6 +31,14 @@ public class FeatureService implements IBaseService<FeatureDTO, Long>, IModelMap
         return createFromEntities(featureRepository.findAll());
     }
 
+    public List<FeatureDTO> findAll1(Long featureTypeId) {
+        return createFromEntities(featureRepository.findAllByFeaturetype_FeatureTypeId(featureTypeId));
+    }
+
+    public List<FeatureDTO> findAll(Long productId) {
+        return createFromEntities(featureRepository.findAllByProductId(productId));
+    }
+
     @Override
     public FeatureDTO findById(Long featureId) {
         Optional <Feature> feature = featureRepository.findById(featureId);
@@ -68,18 +76,14 @@ public class FeatureService implements IBaseService<FeatureDTO, Long>, IModelMap
     @Override
     public Feature createFromD(FeatureDTO featureDTO) {
         Feature feature = modelMapper.map(featureDTO, Feature.class);
-        try {
-            feature.setFeaturetype(featureTypeRepository.findById(featureDTO.getFeatureId()).get());
-        }catch (Exception e){
-            feature.setFeaturetype(null);
-        }
+        feature.setFeaturetype(featureTypeRepository.findById(featureDTO.getFeatureTypeId()).get());
         return feature;
     }
 
     @Override
     public FeatureDTO createFromE(Feature feature) {
         FeatureDTO featureDTO = modelMapper.map(feature, FeatureDTO.class);
-        featureDTO.setFeatureId(feature.getFeatureId());
+        featureDTO.setFeatureTypeId(feature.getFeaturetype().getFeatureTypeId());
         return featureDTO;
     }
 
@@ -88,11 +92,7 @@ public class FeatureService implements IBaseService<FeatureDTO, Long>, IModelMap
         if (feature != null && featureDTO != null){
             feature.setPoint(featureDTO.getPoint());
             feature.setSpecific(featureDTO.getSpecific());
-            try {
-                feature.setFeaturetype(featureTypeRepository.findById(featureDTO.getFeatureId()).get());
-            }catch (Exception e){
-                feature.setFeaturetype(null);
-            }
+            feature.setFeaturetype(featureTypeRepository.findById(featureDTO.getFeatureTypeId()).get());
         }
         return feature;
     }

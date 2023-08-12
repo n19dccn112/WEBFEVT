@@ -11,6 +11,5 @@ import java.util.Optional;
 
 @Repository
 public interface ImageRepository extends JpaRepository<Image, Long> {
-    @Query(value = "select * from image where product_id = ?1", nativeQuery = true)
     List<Image> findAllByProduct_ProductId(Long productId);
 }

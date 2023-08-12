@@ -16,7 +16,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("api/FeatureType")
+@RequestMapping("api/featureTypes")
 @Tag(name = "FeatureType")
 public class FeatureTypeController implements IBaseController<FeatureTypeDTO, Long, FeatureTypeService> {
     @Resource
