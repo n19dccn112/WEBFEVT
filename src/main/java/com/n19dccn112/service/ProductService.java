@@ -3,6 +3,7 @@ package com.n19dccn112.service;
 import com.n19dccn112.model.dto.FeatureDetailDTO;
 import com.n19dccn112.model.dto.ProductDTO;
 import com.n19dccn112.model.entity.*;
+import com.n19dccn112.model.key.FeatureDetailId;
 import com.n19dccn112.repository.*;
 import com.n19dccn112.service.Interface.IBaseService;
 import com.n19dccn112.service.Interface.IModelMapper;
@@ -73,27 +74,31 @@ public class ProductService implements IBaseService<ProductDTO, Long>, IModelMap
         product.orElseThrow(() -> new NotFoundException(ProductDTO.class, productId));
         productRepository.save(updateEntity(product.get(), productDTO));
 
-        for (Image image: imageRepository.findAllByProduct_ProductId(productId)){
-            imageRepository.delete(image);
+        List<Image> images = imageRepository.findAllByProduct_ProductId(productId);
+        for (int i=0; i<productDTO.getImageUrl().size(); i++){
+            if (i<images.size()) {
+                images.get(i).setUrl(productDTO.getImageUrl().get(i));
+                imageRepository.save(images.get(i));
+            }else{
+                Image image = new Image();
+                image.setUrl(productDTO.getImageUrl().get(i));
+                image.setProduct(product.get());
+                imageRepository.save(image);
+            }
         }
-        List<Image> images = new ArrayList<>();
-        for (int i = 0; i < productDTO.getImageUrl().size(); i++){
-            Image image = new Image();
-            image.setUrl(productDTO.getImageUrl().get(i));
-            image.setProduct(product.get());
-            imageRepository.save(image);
-            images.add(image);
-        }
-        product.get().setImages(images);
-        productRepository.save(product.get());
-        for (FeatureDetail featureDetail: featureDetailRepository.findAllByFeatureDetailsByProductId(productId)){
-            featureDetailService.delete(featureDetail.getFeatureDetailsId().getFeature().getFeatureId(), productId);
-        }
-        for (Long featureId: productDTO.getFeatureIds()) {
-            FeatureDetailDTO featureDetailDTO = new FeatureDetailDTO();
-            featureDetailDTO.setFeatureId(featureId);
-            featureDetailDTO.setProductId(productId);
-            featureDetailService.save(featureDetailDTO);
+        List<FeatureDetail> featureDetails = featureDetailRepository.findAllByFeatureDetailsByProductId(productId);
+        for (int i=0; i<productDTO.getFeatureIds().size(); i++){
+            if (i<featureDetails.size()) {
+                FeatureDetailId featureDetailId = featureDetails.get(i).getFeatureDetailsId();
+                featureDetailId.setProduct(productRepository.findProductByName(productDTO.getName()).get());
+                featureDetails.get(i).setFeatureDetailsId(featureDetailId);
+                featureDetailRepository.save(featureDetails.get(i));
+            }else {
+                FeatureDetailDTO featureDetailDTO = new FeatureDetailDTO();
+                featureDetailDTO.setFeatureId(productDTO.getFeatureIds().get(i));
+                featureDetailDTO.setProductId(productId);
+                featureDetailService.save(featureDetailDTO);
+            }
         }
 
         return createFromE(product.get());

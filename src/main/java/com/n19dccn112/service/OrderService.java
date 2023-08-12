@@ -18,6 +18,7 @@ import com.n19dccn112.service.exception.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import java.util.*;
 
@@ -95,13 +96,20 @@ public class OrderService implements IBaseService<OrderDTO, Long>, IModelMapper<
         }
         return createFromE(orderRepository.findOrderByPhone(orderDTO.getPhone()).get());
     }
-
+    @Transactional
     @Override
     public OrderDTO delete(Long orderId) {
         Optional <Order> order = orderRepository.findById(orderId);
         order.orElseThrow(() -> new NotFoundException(Order.class, orderId));
         OrderDTO orderDTO = createFromE(order.get());
         try {
+            List<OrderDetail> orderDetails = order.get().getOrderDetails();
+            for (OrderDetail orderDetail: orderDetails) {
+                Product product = orderDetail.getOrderDetailId().getProduct();
+                product.setRemain(product.getRemain() + orderDetail.getAmount());
+                productRepository.save(product);
+                orderDetailRepository.delete(orderDetail);
+            }
             orderRepository.delete(order.get());
         }
         catch (ConstraintViolationException constraintViolationException){
@@ -116,7 +124,9 @@ public class OrderService implements IBaseService<OrderDTO, Long>, IModelMapper<
         Optional<User> user = userRepository.findById(orderDTO.getUserId());
         user.orElseThrow(() -> new NotFoundException(UserDTO.class, orderDTO.getUserId()));
         order.setUser(user.get());
-        order.setStatus(orderDTO.getStatus());
+        try {
+            order.setStatus(OrderStatus.valueOf(orderDTO.getStatus()));
+        }catch (Exception e){}
         return order;
     }
 
@@ -124,11 +134,16 @@ public class OrderService implements IBaseService<OrderDTO, Long>, IModelMapper<
     public OrderDTO createFromE(Order order) {
         OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
         orderDTO.setUserId(order.getUser().getUserId());
-        orderDTO.setStatus(order.getStatus());
-        Map<String, Integer> map = new HashMap<>();
+        orderDTO.setName(order.getUser().getUsername());
+        try {
+            orderDTO.setStatus(order.getStatus().name());
+        }catch (Exception e){}
+
+        Map<Long, Integer> map = new HashMap<>();
         for (OrderDetail orderDetail: orderDetailRepository.findAllByOrderOrderId(order.getOrderId())){
-            map.put(orderDetail.getOrderDetailId().getProduct().getProductId().toString(), orderDetail.getAmount());
+            map.put(orderDetail.getOrderDetailId().getProduct().getProductId(), orderDetail.getAmount());
         }
+        orderDTO.setDetails(map);
         return orderDTO;
     }
 
@@ -137,18 +152,12 @@ public class OrderService implements IBaseService<OrderDTO, Long>, IModelMapper<
         if ( order != null && orderDTO != null){
             order.setAddress(orderDTO.getAddress());
             order.setPhone(orderDTO.getPhone());
-            order.setStatus(orderDTO.getStatus());
-            order.setTime(orderDTO.getTime());
-            if (orderDTO.getStatus() == OrderStatus.CANCELED)
-                for (Map.Entry<Long, Integer> entry : orderDTO.getDetails().entrySet()){
-                    OrderDetailDTO orderDetailDTO = orderDetailService.findById(orderDTO.getOrderId(), entry.getKey());
-                    orderDetailDTO.setAmount(entry.getValue());
-                    orderDetailRepository.save(orderDetailService.createFromD(orderDetailDTO));
-
-                    Optional<Product> product = productRepository.findById(entry.getKey());
-                    product.orElseThrow(() -> new NotFoundException(ProductDTO.class, entry.getKey()));
-                    product.get().setRemain(product.get().getRemain() + entry.getValue());
-                    productRepository.save(product.get());
+            order.setStatus(OrderStatus.valueOf(orderDTO.getStatus()));
+            if (orderDTO.getStatus().equals(OrderStatus.CANCELED.toString()))
+                for (OrderDetail orderDetail: order.getOrderDetails()){
+                    Product product = orderDetail.getOrderDetailId().getProduct();
+                    product.setRemain(product.getRemain() + orderDetail.getAmount());
+                    productRepository.save(product);
                 }
         }
         return order;

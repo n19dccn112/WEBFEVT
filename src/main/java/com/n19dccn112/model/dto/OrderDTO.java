@@ -17,8 +17,9 @@ public class OrderDTO {
     private String address;
     @Size(min = 10, max = 10)
     private String phone;
-    private OrderStatus status;
+    private String status;
     private Date time;
     private Long userId;
+    private String name;
     private Map<Long, Integer> details;
 }
